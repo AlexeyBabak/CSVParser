@@ -3,7 +3,6 @@ using CsvHelper;
 using System.IO;
 using System.Globalization;
 using System.Linq;
-using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 using System.Collections.Generic;
 using System.Text;
@@ -64,20 +63,20 @@ namespace CSVParser
                 {
                     Console.WriteLine($"Index: {status.Index}, EventStatusName: {status.EventStatusName}");
                 }
-                
-                //Join Statuses
-                var resultCSV = from f in records
-                                join s in eventStatus on f.EventStatusID equals s.Index into g
-                                select new
-                                {
-                                    f.TrackingNumber,
-                                    f.EventDate,
-                                    f.EventStatusID,
-                                    f.EventState,
-                                    f.EventCity,
-                                    EventStatusName = g.Any() ? g.First().EventStatusName : null
-                                };
 
+                //Join Statuses
+                var resultCSV = (from f in records
+                                 join s in eventStatus on f.EventStatusID equals s.Index into g
+                                 select new TrackingFile()
+                                 {
+                                     TrackingNumber = f.TrackingNumber,
+                                     EventDate = f.EventDate,
+                                     EventStatusID = f.EventStatusID,
+                                     EventState = f.EventState,
+                                     EventCity = f.EventCity,
+                                     EventStatusName = g.Any() ? g.First().EventStatusName : null
+                                 }).ToList();
+                
                 //Show data from final file
                 foreach (var record in resultCSV)
                 {
@@ -85,42 +84,5 @@ namespace CSVParser
                 }
             }
         }
-    }
-
-    public class TrackingFileClassMap : ClassMap<TrackingFile>
-    {
-        public TrackingFileClassMap()
-        {
-            Map(m => m.TrackingNumber).Name("TrackingNumber");
-            Map(m => m.EventDate).Name("EventDate");
-            Map(m => m.EventStatusID).Name("EventStatusId");
-            Map(m => m.EventState).Name("EventState");
-            Map(m => m.EventCity).Name("EventCity");
-        }
-    }
-
-    public class TrackingFile
-    { 
-        public string TrackingNumber { get; set; }
-        public string EventDate { get; set; }
-        public int EventStatusID { get; set; }
-        public string EventState { get; set; }
-        public string EventCity { get; set; }
-        public string EventStatusName { get; set; }
-    }
-
-    public static class StringExt
-    {
-        public static string Truncate(this string value, int maxLength)
-        {
-            if (string.IsNullOrEmpty(value)) return value;
-            return value.Length <= maxLength ? value : value.Substring(0, maxLength);
-        }
-    }
-
-    public class EventStatus
-    {
-        public int Index { get; set; }
-        public string EventStatusName { get; set; }
     }
 }
