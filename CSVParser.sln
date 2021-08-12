@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSVParser", "CSVParser\CSVParser.csproj", "{809FC5DA-767E-4646-B78C-38C9B9CB4658}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSVParser", "CSVParser\CSVParser.csproj", "{809FC5DA-767E-4646-B78C-38C9B9CB4658}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSVParser.UnitTests", "CSVParser.UnitTests\CSVParser.UnitTests.csproj", "{A2AE597F-D46C-42A8-901C-E78862F3BFEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{809FC5DA-767E-4646-B78C-38C9B9CB4658}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{809FC5DA-767E-4646-B78C-38C9B9CB4658}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{809FC5DA-767E-4646-B78C-38C9B9CB4658}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2AE597F-D46C-42A8-901C-E78862F3BFEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2AE597F-D46C-42A8-901C-E78862F3BFEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2AE597F-D46C-42A8-901C-E78862F3BFEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2AE597F-D46C-42A8-901C-E78862F3BFEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

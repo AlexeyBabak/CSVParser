@@ -1,4 +1,6 @@
-﻿namespace CSVParser
+﻿using System;
+
+namespace CSVParser
 {
     public static class StringExt
     {
