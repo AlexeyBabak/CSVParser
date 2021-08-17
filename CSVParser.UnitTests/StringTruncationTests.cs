@@ -42,6 +42,8 @@ namespace CSVParser.UnitTests
 
         [TestCase("abcdef", 2, ExpectedResult = "ab")]
         [TestCase("abcdef", 0, ExpectedResult = "")]
+        [TestCase("abcdef", 6, ExpectedResult = "abcdef")]
+        [TestCase("abcdef", 7, ExpectedResult = "abcdef")]
         public string Truncategood_arguments_should_return_proper_result(string source, int length)
         {
             // arrange
