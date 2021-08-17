@@ -7,7 +7,7 @@ namespace CSVParser
         public TrackingFileClassMap()
         {
             Map(m => m.TrackingNumber).Name("TrackingNumber");
-            Map(m => m.EventDate).Name("EventDate");
+            Map(m => m.EventDate).Name("EventDate").TypeConverterOption.Format("g");
             Map(m => m.EventStatusID).Name("EventStatusId");
             Map(m => m.EventState).Name("EventState");
             Map(m => m.EventCity).Name("EventCity");

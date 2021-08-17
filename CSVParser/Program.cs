@@ -23,23 +23,6 @@ namespace CSVParser
                 tracking.EventCity = tracking.EventCity.Truncate(stringLimit);
             }
 
-            ////Duplicate try
-            //HashSet<string> ScannedRecords = new HashSet<string>();
-            //foreach (TrackingFile tracking in records)
-            //{
-            //    StringBuilder sb = new StringBuilder();
-            //    foreach (TrackingFile col in records)
-            //    {
-            //        sb.AppendFormat("[{0}={1}]", col, records.ToString());
-            //    }
-            //    if (!ScannedRecords.Add(sb.ToString()))
-            //    {
-            //        // This record is a duplicate.
-            //    }
-            //}
-
-            //TODO: Add logic for date conversion
-
             //Show all data
             foreach (TrackingFile tracking in records)
             {
@@ -62,6 +45,40 @@ namespace CSVParser
             {
                 Console.WriteLine($"TrackingNumber: {record.TrackingNumber}, EventDate: {record.EventDate}, EventStatusID: {record.EventStatusID}, EventState: {record.EventState}, EventCity: {record.EventCity}, EventStatusName: {record.EventStatusName}");
             }
+
+            List<TrackingGrouped> resultGroupedCSV = GetGroupedCSV(resultCSV);
+
+            foreach (var record in resultGroupedCSV)
+            {
+                Console.WriteLine(record.TrackNumber);
+                foreach (var item in record.Events)
+                {
+                    Console.WriteLine($"{item.TrackingNumber}, {record.TrackNumber}\n");
+                }
+            }
+
+            ////Duplicate try
+            //HashSet<string> ScannedRecords = new HashSet<string>();
+            //foreach (TrackingFile tracking in records)
+            //{
+            //    StringBuilder sb = new StringBuilder();
+            //    foreach (TrackingFile col in records)
+            //    {
+            //        sb.AppendFormat("[{0}={1}]", col, records.ToString());
+            //    }
+            //    if (!ScannedRecords.Add(sb.ToString()))
+            //    {
+            //        // This record is a duplicate.
+            //    }
+            //}
+        }
+
+        public static List<TrackingGrouped> GetGroupedCSV(List<TrackingFile> resultCSV)
+        {
+            return resultCSV
+                .GroupBy(u => u.TrackingNumber)
+                .Select(grp => new TrackingGrouped() { TrackNumber = grp.Key, Events = grp.ToList() })
+                .ToList();
         }
 
         public static List<TrackingFile> CSVParser(string path)
