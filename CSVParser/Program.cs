@@ -6,6 +6,7 @@ using System.Linq;
 using CsvHelper.Configuration.Attributes;
 using System.Collections.Generic;
 using System.Text;
+using CSVParser.Core.TrackFiles.TrackBunches;
 
 namespace CSVParser
 {
@@ -46,14 +47,15 @@ namespace CSVParser
                 Console.WriteLine($"TrackingNumber: {record.TrackingNumber}, EventDate: {record.EventDate}, EventStatusID: {record.EventStatusID}, EventState: {record.EventState}, EventCity: {record.EventCity}, EventStatusName: {record.EventStatusName}");
             }
 
-            List<TrackingGrouped> resultGroupedCSV = GetGroupedCSV(resultCSV);
+            List<TrackBunch> resultGroupedCSV = GetGroupedCSV(resultCSV);
 
             foreach (var record in resultGroupedCSV)
             {
-                Console.WriteLine(record.TrackNumber);
+                //Console.WriteLine(record.TrackNumber);
                 foreach (var item in record.Events)
                 {
-                    Console.WriteLine($"{item.TrackingNumber}, {record.TrackNumber}\n");
+                    throw new NotImplementedException();
+                    //Console.WriteLine($"{item.TrackingNumber}, {record.TrackNumber}\n");
                 }
             }
 
@@ -73,12 +75,13 @@ namespace CSVParser
             //}
         }
 
-        public static List<TrackingGrouped> GetGroupedCSV(List<TrackingFile> resultCSV)
+        public static List<TrackBunch> GetGroupedCSV(List<TrackingFile> resultCSV)
         {
-            return resultCSV
-                .GroupBy(u => u.TrackingNumber)
-                .Select(grp => new TrackingGrouped() { TrackNumber = grp.Key, Events = grp.ToList() })
-                .ToList();
+            throw new NotImplementedException();
+            //return resultCSV
+            //    .GroupBy(u => u.TrackingNumber)
+            //    .Select(grp => new TrackBunch() { TrackNumber = grp.Key, Events = grp.ToList() })
+            //    .ToList();
         }
 
         public static List<TrackingFile> CSVParser(string path)
