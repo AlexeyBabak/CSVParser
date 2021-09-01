@@ -39,5 +39,13 @@ namespace CSVParser
                         EventStatusName = g.Any() ? g.First().EventStatusName : null
                     }).ToList();
         }
+
+        public static List<TrackingFile> GetFinalCSVWithoutDuplicates(List<TrackingFile> records)
+        { 
+            return records
+                .GroupBy(x => new { x.TrackingNumber, x.EventDate, x.EventStatusID, x.EventState, x.EventCity })
+                .Select(x => x.FirstOrDefault())
+                .ToList();
+        }
     }
 }
