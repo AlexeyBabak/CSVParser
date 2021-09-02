@@ -24,7 +24,8 @@ namespace CSVParser
             WrongEventOrder,
             MissingRegistration,
             TrackStatusNotExists,
-            IncompatibleEvents
+            IncompatibleEvents,
+            EventMissing
         }
     }
 }

@@ -24,15 +24,13 @@ namespace CSVParser
             {
                 tracking.EventCity = tracking.EventCity.Truncate(stringLimit);
             }
-
             //Event List
             List<EventStatus> eventStatus = EventStatus.GetEventList();
 
             //Join Statuses
             List<TrackingFile> resultCSVWithoutDuplicates = TrackingFile.GetFinalCSVWithoutDuplicates(TrackingFile.GetFinalCSV(records, eventStatus));
 
-            //Grouped by TN
-            List <TrackingGrouped> resultGroupedCSV = TrackingGrouped.GetGroupedCSV(resultCSVWithoutDuplicates);
+            List<TrackingGrouped> resultGroupedCSV = TrackingGrouped.GetGroupedCSV(resultCSVWithoutDuplicates);
 
             //Show data from final file
             foreach (var record in resultGroupedCSV)
@@ -44,48 +42,15 @@ namespace CSVParser
                 }
             }
 
-            //HashSet<string> ScannedRecords = new HashSet<string>();
+            var errorsHandler = new ErrorsHandler();
 
-            //foreach (var row in records)
-            //{
-            //    StringBuilder sb = new StringBuilder();
-            //    foreach (TrackingFile col in records)
-            //    {
-            //        sb.AppendFormat("[{0}={1}]", col, records.ToString());
-            //    }
-            //    if (!ScannedRecords.Add(sb.ToString()))
-            //    {
-            //        // This record is a duplicate.
-            //    }
-            //}
+
+            foreach (var record in resultGroupedCSV)
+            {
+                var e = errorsHandler.Validate(record.Events);
+            }
+            
+            Console.ReadLine();
         }
     }
-
-    //public class TrackingNumberComparer : IEqualityComparer<TrackingFile>
-    //{
-    //    public bool Equals(TrackingFile x, TrackingFile y)
-    //    {
-    //        if (ReferenceEquals(x, y))
-    //            return true;
-    //        if (ReferenceEquals(x, null))
-    //            return true;
-    //        if (ReferenceEquals(y, null))
-    //            return true;
-    //        if (x.GetType() != y.GetType())
-    //            return false;
-
-    //        return x.TrackingNumber == y.TrackingNumber && x.EventDate == y.EventDate;
-    //    }
-
-    //    public int GetHashCode(TrackingFile trackingFile)
-    //    {
-    //        if (ReferenceEquals(trackingFile, null))
-    //            return 0;
-
-    //        int hashTrackingNumber = trackingFile.TrackingNumber == null ? 0 : trackingFile.TrackingNumber.GetHashCode();
-    //        int hashEventDate = trackingFile.EventDate == null ? 0 : trackingFile.EventDate.GetHashCode();
-    //        return hashTrackingNumber ^ hashEventDate;
-
-    //    }
-    //}
 }

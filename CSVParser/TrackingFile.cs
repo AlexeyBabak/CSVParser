@@ -14,7 +14,7 @@ namespace CSVParser
         public int EventStatusID { get; set; }
         public string EventState { get; set; }
         public string EventCity { get; set; }
-        public string EventStatusName { get; set; }
+        public TrackStatus EventStatusName { get; set; }
 
         public static List<TrackingFile> CSVParser(string path)
         {
@@ -36,7 +36,7 @@ namespace CSVParser
                         EventStatusID = f.EventStatusID,
                         EventState = f.EventState,
                         EventCity = f.EventCity,
-                        EventStatusName = g.Any() ? g.First().EventStatusName : null
+                        EventStatusName = g.Any() ? g.First().EventStatusName : TrackStatus.Undefined
                     }).ToList();
         }
 
