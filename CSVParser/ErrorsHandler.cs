@@ -54,7 +54,7 @@ namespace CSVParser
 
                 if (_receivedAtWh <= _registered)
                 {
-                    AddError(EventValidator.IssueType.WrongEventOrder, $"{TrackStatus.PackageRegistered} date: {_registered} after {TrackStatus.PackageReceivedAtWarehouse} date: {_receivedAtWh}");
+                    AddError(EventValidator.IssueType.WrongEventOrder, $"{TrackStatus.PackageRegistered} date: {_registered} after {TrackStatus.PackageReceivedAtWarehouse} date: {_receivedAtWh}. Tracking Number: {trackingGrouped.TrackingNumber}");
                 }
             }
         }
@@ -65,7 +65,15 @@ namespace CSVParser
             {
                 _delivered = trackingGrouped.EventDate;
 
-                //TODO: add logic
+                if (_delivered <= _registered)
+                {
+                    AddError(EventValidator.IssueType.WrongEventOrder, $"{TrackStatus.PackageRegistered} date: {_registered} after {TrackStatus.Delivered} date: {_delivered}. Tracking Number: {trackingGrouped.TrackingNumber}");
+                }
+
+                if (_delivered <= _receivedAtWh)
+                {
+                    AddError(EventValidator.IssueType.WrongEventOrder, $"{TrackStatus.PackageReceivedAtWarehouse} date: {_receivedAtWh} after {TrackStatus.Delivered} date: {_delivered}. Tracking Number: {trackingGrouped.TrackingNumber}");
+                }
             }
         }
 
@@ -75,7 +83,15 @@ namespace CSVParser
             {
                 _returned = trackingGrouped.EventDate;
 
-                //TODO: add logic
+                if (_returned <= _registered)
+                {
+                    AddError(EventValidator.IssueType.WrongEventOrder, $"{TrackStatus.PackageRegistered} date: {_registered} after {TrackStatus.ReturnedToSender} date: {_returned}. Tracking Number: {trackingGrouped.TrackingNumber}");
+                }
+
+                if (_returned.HasValue && _delivered.HasValue)
+                {
+                    AddError(EventValidator.IssueType.IncompatibleEvents, $"{TrackStatus.ReturnedToSender} date: {_returned} and {TrackStatus.Delivered} date: {_delivered} for same tracking. Tracking Number: {trackingGrouped.TrackingNumber}");
+                }
             }
         }
 
